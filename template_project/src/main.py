@@ -9,6 +9,7 @@ from auth.models import User
 from auth.schemas import UserCreate, UserRead
 
 from operations.router import router as router_operation
+from tasks.router import router as router_tasks
 
 
 app = FastAPI(title="Trading App")
@@ -40,6 +41,7 @@ app.include_router(
 
 
 app.include_router(router_operation)
+app.include_router(router_tasks)
 
 
 @app.get("/protected-route")

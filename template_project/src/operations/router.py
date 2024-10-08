@@ -18,7 +18,8 @@ async def get_specific_operations(
     try:
         query = select(operation).where(operation.c.type == operation_type)
         result = await session.execute(query)
-        return {"status": "success", "data": result.all(), "details": None}
+        data = [dict(row._mapping) for row in result.fetchall()]
+        return {"status": "success", "data": data, "details": None}
     except Exception:
         raise HTTPException(
             status_code=500, detail={"status": "error", "data": None, "details": None}
@@ -29,7 +30,7 @@ async def get_specific_operations(
 async def add_specific_operations(
     new_operation: OperationCreate, session: AsyncSession = Depends(get_async_session)
 ):
-    stmt = insert(operation).values(**new_operation.dict())
+    stmt = insert(operation).values(**new_operation.model_dump())
     await session.execute(stmt)
     await session.commit()
     return {"status": "success"}

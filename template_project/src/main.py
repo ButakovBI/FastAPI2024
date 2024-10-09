@@ -2,6 +2,7 @@ import aioredis
 from fastapi import Depends, FastAPI
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
+from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
 from auth.base_config import auth_backend, fastapi_users_backend, current_user
@@ -13,6 +14,11 @@ from tasks.router import router as router_tasks
 
 
 app = FastAPI(title="Trading App")
+
+
+@app.get("/")
+async def root():
+    return {"message": "Hello from root!"}
 
 
 app.include_router(
@@ -60,6 +66,23 @@ async def startup_event():
         "redis://localhost", encoding="utf8", decode_responses=True
     )
     FastAPICache.init(RedisBackend(redis), prefix="fastapi-cache")
+
+
+origins = ["http://localhost:3000"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"],
+    allow_headers=[
+        "Content-Type",
+        "Set-Cookie",
+        "Access-Control-Allow-Headers",
+        "Access-Control-Allow-Origin",
+        "Authorization",
+    ],
+)
 
 
 if __name__ == "__main__":

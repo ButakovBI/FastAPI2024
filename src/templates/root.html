@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FastAPI MVP Template</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #333;
+        }
+        a {
+            color: #009688;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        pre {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .badge {
+            display: inline-block;
+            padding: 0.3em 0.6em;
+            font-size: 75%;
+            font-weight: 700;
+            line-height: 1;
+            color: #fff;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: baseline;
+            border-radius: 0.25rem;
+        }
+        .badge-fastapi {
+            background-color: #009688;
+        }
+        .badge-postgres {
+            background-color: #336791;
+        }
+        .badge-redis {
+            background-color: #DC382D;
+        }
+        .badge-docker {
+            background-color: #2496ED;
+        }
+        .badge-prometheus {
+            background-color: #E6522C;
+        }
+        .badge-heroku {
+            background-color: #430098;
+        }
+        .technologies {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Шаблон MVP FastAPI</h1>
+<p style="text-align:center;"><strong>Структура проекта для лёгкой дальнейшей разработки</strong></p>
+
+<h2>Используемые технологии</h2>
+<div class="technologies">
+    <span class="badge badge-fastapi">FastAPI</span>
+    <span class="badge badge-postgres">Postgres</span>
+    <span class="badge badge-redis">Redis</span>
+    <span class="badge badge-docker">Docker</span>
+    <span class="badge badge-prometheus">Prometheus</span>
+</div>
+
+<h2>Swagger-документация</h2>
+<p style="text-align:center;">FastAPI автоматически генерирует интерактивную документацию по доступным эндпоинтам API. Чтобы ознакомиться с ней и протестировать API прямо в браузере, перейдите по адресу:</p>
+
+<p style="text-align:center;"><a href="http://localhost:8000/docs">localhost:8000/docs</a></p>
+<p style="text-align:center;">Документация поддерживает Swagger UI, что позволяет легко отправлять запросы к API и видеть их результаты прямо в интерфейсе.</p>
+
+</body>
+</html>

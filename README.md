@@ -16,13 +16,8 @@
 - ![Redis](https://img.shields.io/badge/Redis-DC382D?logo=redis&logoColor=white)
 - ![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white)
 - ![Prometheus](https://img.shields.io/badge/Prometheus-E6522C?logo=prometheus&logoColor=white)
-- ![Heroku](https://img.shields.io/badge/Heroku-430098?logo=heroku&logoColor=white)
 
 ## Работа с сервисом
-
-Сервис доступен по ссылке: [Heroku Deployment](https://example-heroku-app.herokuapp.com/). Вы можете использовать его для тестирования. Если хотите запустить сервис локально, выполните следующие действия.
-
-## Локальный запуск
 
 Перед тем как развернуть сервис, необходимо установить [Docker](https://www.docker.com/) и [Docker Compose](https://docs.docker.com/compose/) на вашу машину.
 

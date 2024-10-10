@@ -1,14 +1,13 @@
-import asyncio
 from typing import AsyncGenerator
 import httpx
 import pytest
 from fastapi.testclient import TestClient
-from httpx import ASGITransport, AsyncClient
+from httpx import ASGITransport
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import NullPool
 
-from database import get_async_session, metadata   
+from database import get_async_session, metadata
 from config import DB_HOST_TEST, DB_NAME_TEST, DB_PASS_TEST, DB_PORT_TEST, DB_USER_TEST
 from main import app
 
@@ -20,13 +19,16 @@ async_session_maker = sessionmaker(
 )
 metadata.bind = engine_test
 
+
 async def override_get_async_session() -> AsyncGenerator[AsyncSession, None]:
     async with async_session_maker() as session:
         yield session
 
+
 app.dependency_overrides[get_async_session] = override_get_async_session
 
-@pytest.fixture(autouse=True, scope='session')
+
+@pytest.fixture(autouse=True, scope="session")
 async def prepare_database():
     async with engine_test.begin() as conn:
         await conn.run_sync(metadata.create_all)
@@ -34,7 +36,9 @@ async def prepare_database():
     async with engine_test.begin() as conn:
         await conn.run_sync(metadata.drop_all)
 
+
 client = TestClient(app)
+
 
 @pytest.fixture(scope="session")
 async def ac() -> AsyncGenerator[httpx.AsyncClient, None]:

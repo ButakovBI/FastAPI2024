@@ -1,5 +1,7 @@
+from pathlib import Path
 import aioredis
 from fastapi import Depends, FastAPI
+from fastapi.responses import HTMLResponse
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
 from fastapi.middleware.cors import CORSMiddleware
@@ -16,9 +18,15 @@ from tasks.router import router as router_tasks
 app = FastAPI(title="Template App")
 
 
-@app.get("/")
-async def root():
-    return {"message": "Hello from root!"}
+@app.get("/", response_class=HTMLResponse)
+async def read_root():
+    base_dir = Path(__file__).resolve().parent
+
+    # Путь к файлу index.html
+    html_path = base_dir / "templates" / "root.html"
+
+    # Читаем содержимое файла и возвращаем его как HTML
+    return HTMLResponse(content=html_path.read_text(encoding="utf-8"), status_code=200)
 
 
 app.include_router(

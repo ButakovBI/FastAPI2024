@@ -11,11 +11,9 @@
 
 ## Используемые технологии
 
-- ![FastAPI](https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white)
-- ![Postgres](https://img.shields.io/badge/Postgres-336791?logo=postgresql&logoColor=white)
-- ![Redis](https://img.shields.io/badge/Redis-DC382D?logo=redis&logoColor=white)
-- ![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white)
-- ![Prometheus](https://img.shields.io/badge/Prometheus-E6522C?logo=prometheus&logoColor=white)
+| ![FastAPI](https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white) | ![Postgres](https://img.shields.io/badge/Postgres-336791?logo=postgresql&logoColor=white) | ![Redis](https://img.shields.io/badge/Redis-DC382D?logo=redis&logoColor=white) | ![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white) | ![Prometheus](https://img.shields.io/badge/Prometheus-E6522C?logo=prometheus&logoColor=white) |
+|---|---|---|---|---|
+
 
 ## Работа с сервисом
 

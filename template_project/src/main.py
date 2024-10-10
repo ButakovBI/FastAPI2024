@@ -13,7 +13,7 @@ from operations.router import router as router_operation
 from tasks.router import router as router_tasks
 
 
-app = FastAPI(title="Trading App")
+app = FastAPI(title="Template App")
 
 
 @app.get("/")

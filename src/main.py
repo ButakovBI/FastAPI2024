@@ -1,19 +1,17 @@
 from pathlib import Path
-import time
+from fastapi.responses import HTMLResponse
 from redis import asyncio as aioredis
 from fastapi import Depends, FastAPI
-from fastapi.responses import HTMLResponse
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
 from fastapi.middleware.cors import CORSMiddleware
 from prometheus_client import Counter, Histogram, generate_latest
-from prometheus_client import REGISTRY
 from starlette.responses import PlainTextResponse
 import uvicorn
 
-from src.auth.base_config import auth_backend, fastapi_users_backend, current_user
-from src.auth.models import User
-from src.auth.schemas import UserCreate, UserRead
+from auth.base_config import auth_backend, fastapi_users_backend, current_user
+from auth.models import User
+from auth.schemas import UserCreate, UserRead
 
 from config import REDIS_HOST, REDIS_PORT
 
@@ -24,17 +22,33 @@ from tasks.router import router as router_tasks
 
 app = FastAPI(title="Template App")
 
-@app.get("/")
-async def read_root():
-    return {"Hello": "World"}
 
-# @app.get("/", response_class=HTMLResponse)
+REQUEST_COUNT = Counter("request_count", "Total number of requests")
+REQUEST_LATENCY = Histogram("request_latency_seconds", "Latency of requests in seconds")
+
+
+# @app.get("/")
 # async def read_root():
-#     base_dir = Path(__file__).resolve().parent
+#     REQUEST_COUNT.inc()
+#     with REQUEST_LATENCY.time():
+#         return {"message": "Hello, World!"}
 
-#     html_path = base_dir / "templates" / "root.html"
 
-#     return HTMLResponse(content=html_path.read_text(encoding="utf-8"), status_code=200)
+@app.get("/metrics")
+def metrics():
+    return PlainTextResponse(generate_latest())
+
+
+@app.get("/", response_class=HTMLResponse)
+async def read_root():
+    base_dir = Path(__file__).resolve().parent
+
+    html_path = base_dir / "templates" / "root.html"
+    REQUEST_COUNT.inc()
+    with REQUEST_LATENCY.time():
+        return HTMLResponse(
+            content=html_path.read_text(encoding="utf-8"), status_code=200
+        )
 
 
 app.include_router(
@@ -100,26 +114,6 @@ app.add_middleware(
         "Authorization",
     ],
 )
-
-# REQUEST_COUNT = Counter('http_requests_total', 'Total HTTP Requests', ['method', 'endpoint'])
-# REQUEST_LATENCY = Histogram('http_request_duration_seconds', 'HTTP Request Latency', ['endpoint'])
-
-# @app.middleware("http")
-# async def monitor_requests(request, call_next):
-#     start_time = time.time()
-#     response = await call_next(request)
-#     process_time = time.time() - start_time
-
-#     REQUEST_COUNT.labels(request.method, request.url.path).inc()
-
-#     REQUEST_LATENCY.labels(request.url.path).observe(process_time)
-
-#     return response
-
-# # Эндпоинт для метрик
-# @app.get("/metrics")
-# async def metrics():
-#     return PlainTextResponse(generate_latest(REGISTRY))
 
 
 if __name__ == "__main__":

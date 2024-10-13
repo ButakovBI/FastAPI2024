@@ -2,10 +2,9 @@ version: "3.7"
 services:
   app:
     build:
-      dockerfile: Dockerfile
-    # restart: always
-    command: /bin/sh -c "docker/start.sh"
-    # command: uvicorn main:app --host 0.0.0.0 --port 8000
+      context: .
+    restart: always
+    command: ["/fastapi_app/docker/start.sh"]
     env_file:
       - .env
     ports:
@@ -16,7 +15,7 @@ services:
 
   postgres:
     image: postgres:15
-    # restart: always
+    restart: always
     env_file:
       - .env
     volumes:
@@ -24,7 +23,7 @@ services:
 
   redis:
     image: redis:latest
-    # restart: always
+    restart: always
     env_file:
       - .env
     ports:
@@ -32,26 +31,38 @@ services:
     volumes:
       - redis_data:/data
 
-  # celery:
-  #   build:
-  #     context: .
-  #   env_file:
-  #     - .env_docker
-  #   command: ["/fastapi_app/docker/tasks.sh", "celery"]
-  #   depends_on:
-  #     - redis
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    ports:
+      - "9091:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    depends_on:
+      - app
 
-  # flower:
-  #   build:
-  #     context: .
-  #   env_file:
-  #     - .env_docker
-  #   command: ["/fastapi_app/docker/tasks.sh", "flower"]
-  #   depends_on:
-  #     - redis
-  #     - celery
-  #   ports:
-  #     - "8888:5555"
+  celery:
+    build:
+      context: .
+    env_file:
+      - .env
+    command: ["/fastapi_app/docker/tasks.sh", "celery"]
+    depends_on:
+      - redis
+
+  flower:
+    build:
+      context: .
+    env_file:
+      - .env
+    command: ["/fastapi_app/docker/tasks.sh", "flower"]
+    depends_on:
+      - redis
+      - celery
+    ports:
+      - "8888:5555"
 
 volumes:
   postgres_data:

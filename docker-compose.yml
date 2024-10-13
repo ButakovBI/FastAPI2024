@@ -1,0 +1,58 @@
+version: "3.7"
+services:
+  app:
+    build:
+      dockerfile: Dockerfile
+    # restart: always
+    command: /bin/sh -c "docker/start.sh"
+    # command: uvicorn main:app --host 0.0.0.0 --port 8000
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+      - redis
+
+  postgres:
+    image: postgres:15
+    # restart: always
+    env_file:
+      - .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:latest
+    # restart: always
+    env_file:
+      - .env
+    ports:
+      - "6380:6379"
+    volumes:
+      - redis_data:/data
+
+  # celery:
+  #   build:
+  #     context: .
+  #   env_file:
+  #     - .env_docker
+  #   command: ["/fastapi_app/docker/tasks.sh", "celery"]
+  #   depends_on:
+  #     - redis
+
+  # flower:
+  #   build:
+  #     context: .
+  #   env_file:
+  #     - .env_docker
+  #   command: ["/fastapi_app/docker/tasks.sh", "flower"]
+  #   depends_on:
+  #     - redis
+  #     - celery
+  #   ports:
+  #     - "8888:5555"
+
+volumes:
+  postgres_data:
+  redis_data:

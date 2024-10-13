@@ -11,8 +11,8 @@
 
 ## Используемые технологии
 
-| ![FastAPI](https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white) | ![Postgres](https://img.shields.io/badge/Postgres-336791?logo=postgresql&logoColor=white) | ![Redis](https://img.shields.io/badge/Redis-DC382D?logo=redis&logoColor=white) | ![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white) | ![Prometheus](https://img.shields.io/badge/Prometheus-E6522C?logo=prometheus&logoColor=white) |
-|---|---|---|---|---|
+| ![FastAPI](https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white) | ![Postgres](https://img.shields.io/badge/Postgres-336791?logo=postgresql&logoColor=white) | ![Redis](https://img.shields.io/badge/Redis-DC382D?logo=redis&logoColor=white) | ![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white) | ![Prometheus](https://img.shields.io/badge/Prometheus-E6522C?logo=prometheus&logoColor=white) | ![Celery](https://img.shields.io/badge/Celery-37814A?logo=celery&logoColor=white) |
+|---|---|---|---|---|---|
 
 
 ## Работа с сервисом
@@ -30,7 +30,7 @@
 2. **Перейдите в директорию проекта:**
 
    ```bash
-   cd FastAPI2024/template_project
+   cd FastAPI2024
    ```
 
 3. **Запустите сервис:**

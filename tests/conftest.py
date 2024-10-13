@@ -1,4 +1,5 @@
 from typing import AsyncGenerator
+
 import httpx
 import pytest
 from fastapi.testclient import TestClient
@@ -7,8 +8,8 @@ from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import NullPool
 
-from database import get_async_session, metadata
 from config import DB_HOST_TEST, DB_NAME_TEST, DB_PASS_TEST, DB_PORT_TEST, DB_USER_TEST
+from database import get_async_session, metadata
 from main import app
 
 DATABASE_TEST_URL = f"postgresql+asyncpg://{DB_USER_TEST}:{DB_PASS_TEST}@{DB_HOST_TEST}:{DB_PORT_TEST}/{DB_NAME_TEST}"

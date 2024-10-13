@@ -1,6 +1,7 @@
-from pydantic import ConfigDict
 from typing import Optional
+
 from fastapi_users import schemas
+from pydantic import ConfigDict
 
 
 class UserRead(schemas.BaseUser[int]):

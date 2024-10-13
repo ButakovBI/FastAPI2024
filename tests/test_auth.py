@@ -1,8 +1,8 @@
 import pytest
+from conftest import async_session_maker, client
 from sqlalchemy import insert, select
 
 from auth.models import role
-from conftest import client, async_session_maker
 
 
 @pytest.mark.asyncio

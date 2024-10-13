@@ -1,7 +1,8 @@
 import asyncio
+
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi_cache.decorator import cache
-from sqlalchemy import select, insert
+from sqlalchemy import insert, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from database import get_async_session

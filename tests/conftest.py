@@ -1,5 +1,4 @@
 from typing import AsyncGenerator
-
 import httpx
 import pytest
 from fastapi.testclient import TestClient
@@ -8,11 +7,17 @@ from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import NullPool
 
-from config import DB_HOST_TEST, DB_NAME_TEST, DB_PASS_TEST, DB_PORT_TEST, DB_USER_TEST
+from config import DB_HOST_TEST, DB_NAME_TEST, DB_PASS_TEST, \
+    DB_PORT_TEST, DB_USER_TEST
 from database import get_async_session, metadata
 from main import app
+from auth.schemas import UserCreate
 
-DATABASE_TEST_URL = f"postgresql+asyncpg://{DB_USER_TEST}:{DB_PASS_TEST}@{DB_HOST_TEST}:{DB_PORT_TEST}/{DB_NAME_TEST}"
+
+DATABASE_TEST_URL = (
+    f"postgresql+asyncpg://{DB_USER_TEST}:{DB_PASS_TEST}@{DB_HOST_TEST}:"
+    f"{DB_PORT_TEST}/{DB_NAME_TEST}"
+)
 
 engine_test = create_async_engine(DATABASE_TEST_URL, poolclass=NullPool)
 async_session_maker = sessionmaker(
@@ -44,5 +49,19 @@ client = TestClient(app)
 @pytest.fixture(scope="session")
 async def ac() -> AsyncGenerator[httpx.AsyncClient, None]:
     transport = ASGITransport(app=app)
-    async with httpx.AsyncClient(transport=transport, base_url="http://test") as ac:
+    async with httpx.AsyncClient(transport=transport,
+                                 base_url="http://test") as ac:
         yield ac
+
+
+@pytest.fixture
+async def create_user_fixture():
+    return UserCreate(
+        email="string1@gmail.com",
+        password="string",
+        is_active=True,
+        is_superuser=False,
+        is_verified=False,
+        username="string",
+        role_id=1
+    )

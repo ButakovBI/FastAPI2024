@@ -1,5 +1,4 @@
 from datetime import datetime, timezone
-
 from fastapi_users.db import SQLAlchemyBaseUserTable
 from sqlalchemy import (
     JSON,

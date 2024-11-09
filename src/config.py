@@ -1,6 +1,6 @@
-from dotenv import load_dotenv
 import os
 
+from dotenv import load_dotenv
 
 load_dotenv()
 
@@ -25,3 +25,6 @@ SMTP_PASSWORD = os.environ.get("SMTP_PASSWORD")
 
 REDIS_HOST = os.environ.get("REDIS_HOST")
 REDIS_PORT = os.environ.get("REDIS_PORT")
+
+REDIS_HOST_TEST = os.environ.get("REDIS_HOST_TEST")
+REDIS_PORT_TEST = os.environ.get("REDIS_PORT_TEST")

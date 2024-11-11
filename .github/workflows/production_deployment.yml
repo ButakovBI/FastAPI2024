@@ -44,7 +44,7 @@ jobs:
         env:
           DATABASE_URL: postgres://postgres:password@localhost:5432/test_db
         run: |
-          pytest tests
+          pytest --config=pyproject.toml tests
 
   docker:
     name: Build and Push Docker Image

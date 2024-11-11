@@ -7,7 +7,7 @@ from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
 from sqlalchemy.exc import SQLAlchemyError
 
-from src.config import REDIS_HOST_TEST, REDIS_PORT_TEST
+from config import REDIS_HOST_TEST, REDIS_PORT_TEST
 
 
 @pytest.mark.asyncio

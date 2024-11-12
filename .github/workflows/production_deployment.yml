@@ -86,7 +86,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ghcr.io/${{ github.repository }}/fastapi-app:latest
+          tags: ghcr.io/butakovbi/fastapi2024/fastapi-app:latest
 
   deploy:
     name: Deploy to Kubernetes

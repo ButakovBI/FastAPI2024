@@ -45,9 +45,14 @@ jobs:
           DATABASE_URL: postgres://postgres:postgres@postgres:5432/mytestdb
           DB_HOST: postgres
           DB_PORT: 5432
-          DB_NAME: mytestdb
+          DB_NAME: postgres
           DB_USER: postgres
           DB_PASS: postgres
+          DB_HOST_TEST: postgres
+          DB_PORT_TEST: 5432
+          DB_NAME_TEST: mytestdb
+          DB_USER_TEST: mytestuser
+          DB_PASS_TEST: mytestpassword
         run: |
           pytest --config=pyproject.toml tests
 

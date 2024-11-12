@@ -71,8 +71,8 @@ async def test_login_user(create_user_fixture):
     response = client.post(
         "/auth/jwt/login",
         data={
-            "username": create_user_fixture.username,
-            "password": create_user_fixture.password},
+            "username": str(create_user_fixture.username),
+            "password": str(create_user_fixture.password)},
         headers={
             "Content-Type": "application/x-www-form-urlencoded"})
     assert response.status_code == 204

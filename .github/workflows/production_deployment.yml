@@ -43,12 +43,12 @@ jobs:
       - name: Run tests
         env:
           DATABASE_URL: postgres://postgres:postgres@postgres:5432/mytestdb
-          DB_HOST: postgres
+          DB_HOST: localhost
           DB_PORT: 5432
           DB_NAME: postgres
           DB_USER: postgres
           DB_PASS: postgres
-          DB_HOST_TEST: postgres
+          DB_HOST_TEST: localhost
           DB_PORT_TEST: 5432
           DB_NAME_TEST: mytestdb
           DB_USER_TEST: mytestuser

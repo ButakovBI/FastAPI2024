@@ -54,7 +54,7 @@ jobs:
           DB_USER_TEST: mytestuser
           DB_PASS_TEST: mytestpassword
         run: |
-          pytest --config=pyproject.toml tests
+          pytest tests
 
   docker:
     name: Build and Push Docker Image

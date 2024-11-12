@@ -7,15 +7,15 @@ on:
 jobs:
   build:
     name: Build and Test
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     services:
       postgres:
         image: postgres:13
         env:
           POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: password
-          POSTGRES_DB: test_db
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: mytestdb
         ports:
           - 5432:5432
         options: >-
@@ -42,14 +42,19 @@ jobs:
 
       - name: Run tests
         env:
-          DATABASE_URL: postgres://postgres:password@localhost:5432/test_db
+          DATABASE_URL: postgres://postgres:postgres@postgres:5432/mytestdb
+          DB_HOST: postgres
+          DB_PORT: 5432
+          DB_NAME: mytestdb
+          DB_USER: postgres
+          DB_PASS: postgres
         run: |
           pytest --config=pyproject.toml tests
 
   docker:
     name: Build and Push Docker Image
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
       - name: Checkout code
@@ -76,7 +81,7 @@ jobs:
   deploy:
     name: Deploy to Kubernetes
     needs: docker
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
       - name: Checkout code
@@ -88,8 +93,6 @@ jobs:
           version: 'latest'
 
       - name: Configure Kubernetes Access
-        env:
-          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
         run: |
           echo "$KUBE_CONFIG_DATA" | base64 --decode > $HOME/.kube/config
 

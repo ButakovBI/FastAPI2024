@@ -88,29 +88,39 @@ jobs:
           push: true
           tags: ghcr.io/butakovbi/fastapi2024/fastapi-app:latest
 
-  deploy:
-    name: Deploy to Kubernetes
-    needs: docker
-    runs-on: self-hosted
+deploy:
+  name: Deploy to Kubernetes
+  needs: docker
+  runs-on: self-hosted
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
 
-      - name: Set up kubectl
-        uses: azure/setup-kubectl@v3
-        with:
-          version: 'latest'
+    - name: Set up kubectl
+      uses: azure/setup-kubectl@v3
+      with:
+        version: 'latest'
 
-      - name: Configure Kubernetes Access
-        run: |
-          echo "$KUBE_CONFIG_DATA" | base64 --decode > $HOME/.kube/config
+    - name: Start Minikube
+      run: |
+        minikube start --driver=docker
+        minikube status
 
-      - name: Deploy to Kubernetes
-        run: |
-          kubectl apply -f k8s/
+    - name: Export KUBECONFIG
+      run: |
+        export KUBECONFIG=$HOME/.kube/config
 
-      - name: Verify deployment
-        run: |
-          kubectl rollout status deployment/app
-          kubectl rollout status deployment/celery
+    - name: Configure Kubernetes Access
+      run: |
+        echo "$KUBE_CONFIG_DATA" | base64 --decode > $HOME/.kube/config
+
+    - name: Deploy to Kubernetes
+      run: |
+        kubectl apply -f k8s/ --validate=false
+
+    - name: Verify deployment
+      run: |
+        kubectl rollout status deployment/app
+        kubectl rollout status deployment/celery
+

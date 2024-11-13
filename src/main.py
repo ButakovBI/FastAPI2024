@@ -16,7 +16,6 @@ from auth.schemas import UserCreate, UserRead
 from config import REDIS_HOST, REDIS_PORT
 from operations.router import router as router_operation
 from pages.router import router as router_pages
-from tasks.router import router as router_tasks
 
 
 app = FastAPI(title="Template App")
@@ -81,7 +80,6 @@ app.include_router(
 
 
 app.include_router(router_operation)
-app.include_router(router_tasks)
 app.include_router(router_pages)
 
 

@@ -108,5 +108,9 @@ jobs:
 
       - name: Deploy to Kubernetes
         run: |
-          kubectl apply -f k8s/deployment.yaml
-          kubectl apply -f k8s/service.yaml
+          kubectl apply -f k8s/
+
+      - name: Verify deployment
+        run: |
+          kubectl rollout status deployment/app
+          kubectl rollout status deployment/celery

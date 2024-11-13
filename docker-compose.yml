@@ -1,3 +1,4 @@
+version: '3'
 services:
   app:
     build:
@@ -8,15 +9,14 @@ services:
       - .env
     ports:
       - "8000:8000"
-    depends_on:
-      - postgres
-      - redis
 
   postgres:
     image: postgres:15
     restart: always
     env_file:
       - .env
+    ports:
+      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
@@ -26,7 +26,7 @@ services:
     env_file:
       - .env
     ports:
-      - "6380:6379"
+      - "6379:6379"
     volumes:
       - redis_data:/data
 
@@ -34,13 +34,9 @@ services:
     image: prom/prometheus
     container_name: prometheus
     ports:
-      - "9091:9090"
-    volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - "9090:9090"
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
-    depends_on:
-      - app
 
   celery:
     build:
@@ -48,21 +44,11 @@ services:
     env_file:
       - .env
     command: ["/fastapi_app/docker/tasks.sh", "celery"]
-    depends_on:
-      - redis
-
-  flower:
-    build:
-      context: .
-    env_file:
-      - .env
-    command: ["/fastapi_app/docker/tasks.sh", "flower"]
-    depends_on:
-      - redis
-      - celery
     ports:
-      - "8888:5555"
+      - "5556:5556"
 
 volumes:
   postgres_data:
+    driver: local
   redis_data:
+    driver: local

@@ -133,7 +133,6 @@ jobs:
             exit 1;
           fi
           echo "$KUBE_CONFIG_DATA" | base64 --decode > $HOME/.kube/config
-          kubectl config use-context minikube
 
       - name: Deploy to Kubernetes
         run: |

@@ -107,6 +107,11 @@ jobs:
           minikube start --driver=docker
           minikube status
 
+      - name: Update Minikube Context
+        run: |
+          minikube update-context
+          echo "Minikube context updated."
+
       - name: Export KUBECONFIG
         run: |
           export KUBECONFIG=$HOME/.kube/config
@@ -114,7 +119,7 @@ jobs:
       - name: Configure Docker Environment for Minikube
         run: |
           eval $(minikube -p minikube docker-env)
-          echo "Docker environment configured for Minikube"
+          echo "Docker environment configured for Minikube."
 
       - name: Pull Docker Images
         run: |
@@ -123,22 +128,12 @@ jobs:
           docker images
           echo "Docker images pulled: butak/fastapi2024_app, butak/fastapi2024_celery"
 
-      - name: Configure Kubernetes Access
-        env:
-          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
-        run: |
-          # Проверяем, что KUBE_CONFIG_DATA не пустая
-          if [ -z "$KUBE_CONFIG_DATA" ]; then
-            echo "KUBE_CONFIG_DATA is empty. Please check the GitHub Secrets configuration.";
-            exit 1;
-          fi
-          echo "$KUBE_CONFIG_DATA" | base64 --decode > $HOME/.kube/config
-
       - name: Deploy to Kubernetes
         run: |
           kubectl apply -f k8s/ --validate=false
 
-      - name: Verify deployment
+      - name: Verify Deployment
         run: |
           kubectl rollout status deployment/app
           kubectl rollout status deployment/celery
+

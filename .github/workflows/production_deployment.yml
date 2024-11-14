@@ -110,7 +110,6 @@ jobs:
       - name: Update Minikube Context
         run: |
           minikube update-context
-          echo "Minikube context updated."
 
       - name: Export KUBECONFIG
         run: |
@@ -119,14 +118,11 @@ jobs:
       - name: Configure Docker Environment for Minikube
         run: |
           eval $(minikube -p minikube docker-env)
-          echo "Docker environment configured for Minikube."
 
       - name: Pull Docker Images
         run: |
           docker pull butak/fastapi2024_app
           docker pull butak/fastapi2024_celery
-          docker images
-          echo "Docker images pulled: butak/fastapi2024_app, butak/fastapi2024_celery"
 
       - name: Deploy to Kubernetes
         run: |
